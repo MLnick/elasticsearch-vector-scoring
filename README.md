@@ -33,6 +33,8 @@ for (i : vector_indices_terms) {
 
 ## Plugin installation
 
+Targets Elasticsearch `2.4.1` and Java `1.8`.
+
 1. Build: `mvn package`
 2. Install plugin in Elasticsearch: `ELASTIC_HOME/bin/plugin install file:///PROJECT_HOME/target/releases/elasticsearch-vector-scoring-2.4.1.zip` (stop ES first).
 3. Start Elasticsearch: `ELASTIC_HOME/bin/elasticsearch`
@@ -102,7 +104,7 @@ curl -s -XGET 'http://localhost:9200/test/movies/1/_termvector?pretty' -d '
 
 ### Scoring example
 
-```
+```sh
 curl -s -XPOST 'http://localhost:9200/test/movies/_search?pretty' -d '
 {
     "query": {
