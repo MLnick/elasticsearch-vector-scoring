@@ -10,7 +10,7 @@ models, in particular factor-based recommendation models.
 
 In this case, user and item factor vectors are indexed using 
 the [Delimited Payload Token Filter](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-delimited-payload-tokenfilter.html), 
-e.g. the vector `[1.2, 0.1, 0.4, -0.2, -0.3]` is indexed as a string: 
+e.g. the vector `[1.2, 0.1, 0.4, -0.2, 0.3]` is indexed as a string: 
 `0|1.2 1|0.1 2|0.4 3|-0.2 4|0.3`.
 
 This stores the vector indices as "terms" and the vector values as 
@@ -20,6 +20,16 @@ This stores the vector indices as "terms" and the vector values as
 
 This plugin provides a native script `payload_vector_score` for use 
 in `function_score` queries.
+
+The script computes the dot product between the query vector and the 
+document vector. In pseudo-code:
+
+```java
+for (i : vector_indices_terms) {
+    payload = indexTermField(i).getPayload()
+    score += payload * queryVector(i)
+}
+```
 
 ## Plugin installation
 
