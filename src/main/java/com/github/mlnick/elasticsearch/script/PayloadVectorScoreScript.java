@@ -32,9 +32,45 @@ import org.elasticsearch.search.lookup.TermPosition;
 
 /**
  * Script that scores documents based on term vector payloads. Dot product and cosine similarity
- * is supported.
+ * are supported.
  */
 public class PayloadVectorScoreScript extends AbstractSearchScript {
+
+    /**
+     * Factory that is registered in
+     * {@link com.github.mlnick.elasticsearch.plugin.VectorScoringPlugin#getNativeScripts()}
+     * method when the plugin is loaded.
+     */
+    public static class Factory implements NativeScriptFactory {
+
+        /**
+         * This method is called for every search on every shard.
+         *
+         * @param params
+         *            list of script parameters passed with the query
+         * @return new native script
+         */
+        @Override
+        public ExecutableScript newScript(@Nullable Map<String, Object> params) {
+            return new PayloadVectorScoreScript(params);
+        }
+
+        /**
+         * Indicates if document scores may be needed by the produced scripts.
+         *
+         * @return {@code true} if scores are needed.
+         */
+        @Override
+        public boolean needsScores() {
+            return false;
+        }
+
+        @Override
+        public String getName() {
+            return SCRIPT_NAME;
+        }
+
+    }
 
     // the field containing the vectors to be scored against
     String field = null;
@@ -48,41 +84,13 @@ public class PayloadVectorScoreScript extends AbstractSearchScript {
 
     final static public String SCRIPT_NAME = "payload_vector_score";
 
-    /**
-     * Factory that is registered in
-     * {@link com.github.mlnick.elasticsearch.plugin.VectorScoringPlugin#onModule(org.elasticsearch.script.ScriptModule)}
-     * method when the plugin is loaded.
-     */
-    public static class Factory implements NativeScriptFactory {
 
-        /**
-         * This method is called for every search on every shard.
-         * 
-         * @param params
-         *            list of script parameters passed with the query
-         * @return new native script
-         */
-        @Override
-        public ExecutableScript newScript(@Nullable Map<String, Object> params) throws ScriptException {
-            return new PayloadVectorScoreScript(params);
-        }
-
-        /**
-         * Indicates if document scores may be needed by the produced scripts.
-         *
-         * @return {@code true} if scores are needed.
-         */
-        @Override
-        public boolean needsScores() {
-            return false;
-        }
-    }
 
     /**
      * @param params index that a scored are placed in this parameter. Initialize them here.
      */
     @SuppressWarnings("unchecked")
-    private PayloadVectorScoreScript(Map<String, Object> params) throws ScriptException {
+    private PayloadVectorScoreScript(Map<String, Object> params) {
         params.entrySet();
         // get field to score
         field = (String) params.get("field");
@@ -94,7 +102,7 @@ public class PayloadVectorScoreScript extends AbstractSearchScript {
             cosine = (boolean) cosineParam;
         }
         if (field == null || vector == null) {
-            throw new ScriptException("cannot initialize " + SCRIPT_NAME + ": field or vector parameter missing!");
+            throw new IllegalArgumentException("cannot initialize " + SCRIPT_NAME + ": field or vector parameter missing!");
         }
         // init index
         index = new ArrayList<>(vector.size());
@@ -102,7 +110,7 @@ public class PayloadVectorScoreScript extends AbstractSearchScript {
             index.add(String.valueOf(i));
         }
         if (vector.size() != index.size()) {
-            throw new ScriptException("cannot initialize " + SCRIPT_NAME + ": index and vector array must have same length!");
+            throw new IllegalArgumentException("cannot initialize " + SCRIPT_NAME + ": index and vector array must have same length!");
         }
         if (cosine) {
             // compute query vector norm once

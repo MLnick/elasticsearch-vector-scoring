@@ -15,39 +15,17 @@ package com.github.mlnick.elasticsearch.plugin;
 
 import com.github.mlnick.elasticsearch.script.PayloadVectorScoreScript;
 import org.elasticsearch.plugins.Plugin;
-import org.elasticsearch.script.ScriptModule;
+import org.elasticsearch.plugins.ScriptPlugin;
+import org.elasticsearch.script.NativeScriptFactory;
 
-/**
- * This class is instantiated when Elasticsearch loads the plugin for the
- * first time. If you change the name of this plugin, make sure to update
- * src/main/resources/es-plugin.properties file that points to this class.
- */
-public class VectorScoringPlugin extends Plugin {
+import java.util.Collections;
+import java.util.List;
 
-    /**
-     * The name of the plugin.
-     * <p>
-     * This name will be used by elasticsearch in the log file to refer to this plugin.
-     *
-     * @return plugin name.
-     */
+public class VectorScoringPlugin extends Plugin implements ScriptPlugin {
+
     @Override
-    public String name() {
-        return "vector-scoring";
+    public List<NativeScriptFactory> getNativeScripts() {
+        return Collections.singletonList(new PayloadVectorScoreScript.Factory());
     }
 
-    /**
-     * The description of the plugin.
-     *
-     * @return plugin description
-     */
-    @Override
-    public String description() {
-        return "Vector scoring";
-    }
-
-    public void onModule(ScriptModule module) {
-        // Register vector scoring script.
-        module.registerScript(PayloadVectorScoreScript.SCRIPT_NAME, PayloadVectorScoreScript.Factory.class);
-    }
 }
