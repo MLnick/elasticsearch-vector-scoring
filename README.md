@@ -33,15 +33,17 @@ for (i : vector_indices_terms) {
 
 ## Plugin installation
 
-Targets Elasticsearch `2.4.1` and Java `1.8`.
+Targets Elasticsearch `5.3.0` and Java `1.8`.
 
 1. Build: `mvn package`
-2. Install plugin in Elasticsearch: `ELASTIC_HOME/bin/plugin install file:///PROJECT_HOME/target/releases/elasticsearch-vector-scoring-2.4.1.zip` (stop ES first).
+2. Install plugin in Elasticsearch: `ELASTIC_HOME/bin/elasticsearch-plugin install file:///PROJECT_HOME/target/releases/elasticsearch-vector-scoring-5.3.0.zip` (stop ES first).
 3. Start Elasticsearch: `ELASTIC_HOME/bin/elasticsearch`
 
 You should see the plugin registered at Elasticsearch startup:
 ```
-[2016-10-21 14:07:59,596][INFO ][plugins                  ] [Starstreak] modules [reindex, lang-expression, lang-groovy], plugins [elasticsearch-vector-scoring], sites []
+...
+[2017-03-29T13:46:57,804][INFO ][o.e.p.PluginsService     ] [2Zs8kW3] loaded plugin [elasticsearch-vector-scoring]
+...
 ```
 
 ## Example usage
@@ -68,7 +70,7 @@ curl -s -XPUT 'http://localhost:9200/test/_mapping/movies?pretty' -d '
     "movies" : {
         "properties" : {
             "@model_factor": {
-                            "type": "string",
+                            "type": "text",
                             "term_vector": "with_positions_offsets_payloads",
                             "analyzer" : "payload_analyzer"
                      }
@@ -115,13 +117,15 @@ curl -s -XPOST 'http://localhost:9200/test/movies/_search?pretty' -d '
                 }
             },
             "script_score": {
-                "script": "payload_vector_score",
-                "lang": "native",
-                "params": {
-                    "field": "@model_factor",
-                    "vector": [0.1,2.3,-1.6,0.7,-1.3],
-                    "cosine" : true
-                }
+                "script": {
+                	"inline": "payload_vector_score",
+                	"lang": "native",
+                	"params": {
+                    	"field": "@model_factor",
+                    	"vector": [0.1,2.3,-1.6,0.7,-1.3],
+                    	"cosine" : true
+                    }
+				}
             },
             "boost_mode": "replace"
         }
@@ -176,3 +180,7 @@ query item from the returned results.
   }
 }
 ```
+
+## TODO
+
+1. Tests
