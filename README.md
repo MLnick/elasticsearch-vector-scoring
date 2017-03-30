@@ -7,7 +7,7 @@ using dot product or cosine similarity.
 
 Master branch targets Elasticsearch 5.3+
 
-[Branch es-2.4](./tree/es-2.4) targets Elasticsearch 2.4.x
+[Branch es-2.4](https://github.com/MLnick/elasticsearch-vector-scoring/tree/es-2.4) targets Elasticsearch 2.4.x
 
 ## Overview
 
