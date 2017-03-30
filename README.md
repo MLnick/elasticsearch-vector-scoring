@@ -3,6 +3,12 @@
 This plugin allows you to score documents based on arbitrary raw vectors, 
 using dot product or cosine similarity.
 
+### Releases
+
+Master branch targets Elasticsearch 5.3+
+
+[Branch es-2.4](./tree/es-2.4) targets Elasticsearch 2.4.x
+
 ## Overview
 
 The aim of this plugin is to enable real-time scoring of vector-based 
