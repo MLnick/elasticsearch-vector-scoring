@@ -7,7 +7,7 @@
     <name>elasticsearch-vector-scoring</name>
     <groupId>com.github.mlnick</groupId>
     <artifactId>elasticsearch-vector-scoring</artifactId>
-    <version>5.3.0</version>
+    <version>5.4.0</version>
     <description>ElasticSearch Plugin for Vector Scoring</description>
 
     <licenses>
@@ -28,7 +28,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- define class name for the descriptor file -->
         <elasticsearch.plugin.classname>com.github.mlnick.elasticsearch.plugin.VectorScoringPlugin</elasticsearch.plugin.classname>
-        <elasticsearch.version>5.3.0</elasticsearch.version>
+        <elasticsearch.version>5.4.0</elasticsearch.version>
     </properties>
 
     <dependencies>
