@@ -5,7 +5,7 @@ using dot product or cosine similarity.
 
 ### Releases
 
-Master branch targets Elasticsearch 5.4+
+Master branch targets Elasticsearch 5.4. **Not that version 5.5+ is _not_ supported as Elasticsearch changed their plugin mechanism**. An update for 5.5+ will be developed soon (PRs welcome).
 
 [Branch es-2.4](https://github.com/MLnick/elasticsearch-vector-scoring/tree/es-2.4) targets Elasticsearch 2.4.x
 
@@ -41,11 +41,17 @@ for (i : vector_indices_terms) {
 
 Targets Elasticsearch `5.4.0` and Java `1.8`.
 
+### Simple installation
+
+`ELASTIC_HOME/bin/elasticsearch-plugin install https://github.com/MLnick/elasticsearch-vector-scoring/releases/download/v5.4.0/elasticsearch-vector-scoring-5.4.0.zip`
+
+### Build from source
+
 1. Build: `mvn package`
 2. Install plugin in Elasticsearch: `ELASTIC_HOME/bin/elasticsearch-plugin install file:///PROJECT_HOME/target/releases/elasticsearch-vector-scoring-5.4.0.zip` (stop ES first).
-3. Start Elasticsearch: `ELASTIC_HOME/bin/elasticsearch`
 
-You should see the plugin registered at Elasticsearch startup:
+
+Start Elasticsearch: `ELASTIC_HOME/bin/elasticsearch`. You should see the plugin registered at Elasticsearch startup:
 ```
 ...
 [2017-03-29T13:46:57,804][INFO ][o.e.p.PluginsService     ] [2Zs8kW3] loaded plugin [elasticsearch-vector-scoring]
