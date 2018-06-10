@@ -60,6 +60,8 @@ Start Elasticsearch: `ELASTIC_HOME/bin/elasticsearch`. You should see the plugin
 
 ## Example usage
 
+Below are examples illustrating basic usage. For a more complete usage example, including training a recommender model with Apache Spark, see the [Elasticsearch Spark Recommender on IBM Code](https://github.com/IBM/elasticsearch-spark-recommender).
+
 ### Index setup
 
 ```sh
