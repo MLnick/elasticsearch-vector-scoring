@@ -5,7 +5,7 @@ using dot product or cosine similarity.
 
 ### Releases
 
-Master branch targets Elasticsearch 5.4. **Not that version 5.5+ is _not_ supported as Elasticsearch changed their plugin mechanism**. An update for 5.5+ will be developed soon (PRs welcome).
+Master branch targets Elasticsearch 5.4. **Note that version 5.5+ is _not_ supported as Elasticsearch changed their plugin mechanism**. An update for 5.5+ will be developed soon (PRs welcome).
 
 [Branch es-2.4](https://github.com/MLnick/elasticsearch-vector-scoring/tree/es-2.4) targets Elasticsearch 2.4.x
 
