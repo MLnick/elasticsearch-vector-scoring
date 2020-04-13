@@ -1,5 +1,14 @@
 # Vector Scoring Plugin for Elasticsearch
 
+**Note:** most of the functionality of this plugin is now supported natively in ES: https://www.elastic.co/guide/en/elasticsearch/reference/current/dense-vector.html
+
+Also see https://www.elastic.co/blog/text-similarity-search-with-vectors-in-elasticsearch.
+
+**This plugin is no longer maintained**
+
+----
+
+
 This plugin allows you to score documents based on arbitrary raw vectors, 
 using dot product or cosine similarity.
 
